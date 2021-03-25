@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-deployment
+  template:
+    metadata:
+      labels:
+        app: jenkins-deployment
+    spec:
+      containers:
+      - name: jenkins-container
+        image: aaditya2801/jenkinss:v1
+        ports:
+          - name: 
+            containerPort: 8080
+        volumeMounts:
+          - name: jenkins-persistent-vol
+            mountPath: /var/jenkins_home/
+      volumes:
+        - name: jenkins-persistent-vol
+          persistentVolumeClaim:
+               claimName: jenkins-pv-claim
